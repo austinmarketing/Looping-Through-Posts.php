@@ -1,0 +1,55 @@
+         
+										<?php  $args = array(
+												'post-type' => 'post',
+												'post-status' => 'publish',
+												'category_name' => 'whatever', // the category name you are targeting 
+												'posts_per_page' => -1, // outputs all posts in specified category
+											);	?>
+											
+										<?php $arr_posts = new WP_Query($args); ?> // starts new query
+										
+										<?php if ($arr_posts->have_posts()) :
+												
+												while ($arr_posts->have_posts()) : // loop
+													$arr_posts->the_post(); ?>
+										
+										<a href="<?php echo get_page_link($post->ID); ?>">
+											
+                      <div class="grid-100">
+												
+												<div class="grid-40">
+												<?php if (has_post_thumbnail()) :
+														the_post_thumbnail('small');
+													   endif; ?>
+												</div>
+												
+												<div class="grid-60">	   	
+													<div>
+														<h2><?php echo get_the_title($post->ID); ?></h2>
+														
+														<p class="date">
+											
+											<?php printf( __( '', 'theme_name' ).' %1$s %2$s',
+                  							     /* the time the post was published */
+                  							    '<time class="updated entry-time" datetime="' . get_the_time('Y-d-m') . '" itemprop="datePublished">' . get_the_time(get_option('date_format')) . '</time>',
+                       								/* the author of the post */
+                       								'<span class="by">'.__('', 'theme_name').'</span> <span class="entry-author author" itemprop="author" itemscope itemptype="http://schema.org/Person">'  . '</span>' 
+                    							); ?>
+														</p>
+														
+													<p><?php echo get_the_excerpt($post->ID); ?></p>
+													<p class="read-more">read more</p>
+													
+                          </div>
+												
+                        </div>	
+											
+                      </div>
+										
+                    </a>
+										
+										<?php endwhile;
+											endif; ?>
+											
+									<?php wp_reset_query(); ?>
+									
